@@ -1,181 +1,223 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Field Operations Dashboard | LinkAus Networks</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>LinkAus NOC Simulator</title>
 
 <style>
 body {
   margin:0;
   font-family: Arial, Helvetica, sans-serif;
-  background:#0b1b2b;
+  background:#06131f;
   color:#fff;
+  overflow:hidden;
 }
 
 /* TOP BAR */
 .topbar {
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  padding:15px 20px;
-  background:#0f2235;
+  padding:12px 18px;
+  background:#0b2236;
   border-bottom:2px solid #00c2ff;
-  position:sticky;
-  top:0;
-  z-index:1000;
 }
 
-.topbar h1 {
-  font-size:16px;
-  margin:0;
+.brand {
   color:#00e0ff;
+  font-weight:bold;
 }
 
-/* GRID LAYOUT */
+/* LAYOUT */
 .grid {
   display:grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap:20px;
-  padding:20px;
+  grid-template-columns: 1fr 1fr;
+  height:calc(100vh - 50px);
 }
 
-@media(max-width:900px){
-  .grid{grid-template-columns:1fr;}
-}
-
-/* CARDS */
-.card {
-  background:#12263a;
-  border-radius:12px;
-  padding:15px;
-  border:1px solid rgba(0,200,255,0.2);
-  box-shadow:0 0 20px rgba(0,200,255,0.1);
-}
-
-/* ALERTS */
-.alert {
-  background:linear-gradient(90deg,#ff0033,#ff7a00);
-  padding:10px;
-  border-radius:8px;
-  font-weight:bold;
-}
-
-/* TILES */
-.tiles {
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.tile {
-  background:#0b1b2b;
+/* LEFT PANEL */
+.panel {
   padding:12px;
-  border-radius:10px;
-  border:1px solid #1f3b55;
+  overflow:auto;
 }
 
-.tile h3 {
-  margin:0;
+.section {
+  background:#0e2436;
+  padding:12px;
+  margin-bottom:10px;
+  border-radius:10px;
+  border:1px solid rgba(0,200,255,0.2);
+}
+
+h3 {
+  margin:0 0 10px 0;
   color:#00e0ff;
 }
 
-/* MAP */
-.map {
-  border-radius:12px;
-  overflow:hidden;
-  border:2px solid #00c2ff;
+/* STATUS DOTS */
+.dot {
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  display:inline-block;
+  margin-right:8px;
 }
 
-/* BUTTON */
-.btn {
-  display:inline-block;
-  margin-top:10px;
-  padding:10px 14px;
-  background:linear-gradient(90deg,#00c2ff,#00ffb3);
-  color:#00131a;
-  font-weight:bold;
+.active { background:#00ffb3; }
+.warn { background:#ffcc00; }
+.critical { background:#ff3355; }
+
+/* TELEMETRY FEED */
+#feed {
+  font-size:12px;
+  line-height:1.6;
+  height:200px;
+  overflow:auto;
+  background:#071521;
+  padding:8px;
   border-radius:8px;
-  text-decoration:none;
+}
+
+/* MAP AREA */
+.map {
+  position:relative;
+  border-left:2px solid #00c2ff;
+}
+
+/* WA BACKGROUND MAP */
+.map img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter: brightness(0.6) contrast(1.2);
+}
+
+/* ANIMATED NETWORK LINES */
+.line {
+  position:absolute;
+  width:2px;
+  height:120px;
+  background:linear-gradient(to bottom, transparent, #00c2ff, transparent);
+  animation: flow 2.5s linear infinite;
+  opacity:0.7;
+}
+
+@keyframes flow {
+  0% { transform:translateY(-120px); opacity:0; }
+  50% { opacity:1; }
+  100% { transform:translateY(600px); opacity:0; }
+}
+
+/* PULSE NODES */
+.node {
+  position:absolute;
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:#00ffb3;
+  box-shadow:0 0 10px #00ffb3;
+  animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { transform:scale(1); opacity:1; }
+  50% { transform:scale(1.8); opacity:0.6; }
+  100% { transform:scale(1); opacity:1; }
+}
+
+/* LOG */
+.log {
+  font-size:12px;
+  background:#071521;
+  padding:8px;
+  border-radius:8px;
+  height:140px;
+  overflow:auto;
 }
 </style>
 </head>
 
 <body>
 
-<!-- TOP BAR -->
 <div class="topbar">
-  <h1>🛰 LinkAus Field Operations Command</h1>
-  <div>
-    <a href="index.html" style="color:#fff;margin-right:10px;">Home</a>
-    <a href="projects.html" style="color:#fff;margin-right:10px;">Projects</a>
-    <a href="contact.html" style="color:#fff;">Contact</a>
-  </div>
+  <div class="brand">🛰 LinkAus NOC Simulator – WA Network Operations</div>
+  <div style="color:#00ffb3;">LIVE SIMULATION ACTIVE</div>
 </div>
 
-<!-- DASHBOARD -->
 <div class="grid">
 
-  <!-- LEFT: STATUS + PROJECTS -->
-  <div class="card">
+  <!-- LEFT: CONTROL + TELEMETRY -->
+  <div class="panel">
 
-    <div class="alert">
-      🚨 ACTIVE STATUS: Field Operations Monitoring Live
+    <div class="section">
+      <h3>📡 Network Status</h3>
+      <p><span class="dot active"></span>Fibre Backbone: Stable</p>
+      <p><span class="dot warn"></span>Wireless Node: Degraded Signal</p>
+      <p><span class="dot active"></span>Civil Infrastructure: Operational</p>
+      <p><span class="dot critical"></span>Remote WA Link: Priority Load</p>
     </div>
 
-    <h2>📡 Active Projects</h2>
-
-    <div class="tiles">
-
-      <div class="tile">
-        <h3>Fibre Rollout</h3>
-        <p>Regional WA deployment</p>
-        <p style="color:#00ffb3;">Active</p>
-      </div>
-
-      <div class="tile">
-        <h3>Wireless Tower</h3>
-        <p>Remote commissioning</p>
-        <p style="color:#ffcc00;">In Progress</p>
-      </div>
-
-      <div class="tile">
-        <h3>Civil Works</h3>
-        <p>Trenching & conduit</p>
-        <p style="color:#00ffb3;">Active</p>
-      </div>
-
-      <div class="tile">
-        <h3>Remote WA Ops</h3>
-        <p>Mobilised crews</p>
-        <p style="color:#ff0033;">Priority</p>
-      </div>
-
+    <div class="section">
+      <h3>⚡ Live Telemetry Feed</h3>
+      <div id="feed"></div>
     </div>
 
-    <a class="btn" href="contact.html">🚨 Request Mobilisation</a>
+    <div class="section">
+      <h3>🧠 System Log</h3>
+      <div class="log" id="log"></div>
+    </div>
 
   </div>
 
-  <!-- RIGHT: MAP -->
-  <div class="card">
+  <!-- RIGHT: WA MAP SIM -->
+  <div class="map">
 
-    <h2>🗺 WA Operations Map</h2>
+    <!-- WA BASE MAP -->
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Western_Australia_location_map.svg"/>
 
-    <div class="map">
-      <iframe 
-        src="https://www.google.com/maps?q=Western%20Australia&output=embed"
-        width="100%" height="350" style="border:0;">
-      </iframe>
-    </div>
+    <!-- FLOW LINES -->
+    <div class="line" style="left:20%;"></div>
+    <div class="line" style="left:40%; animation-delay:0.5s;"></div>
+    <div class="line" style="left:60%; animation-delay:1s;"></div>
+    <div class="line" style="left:80%; animation-delay:1.5s;"></div>
 
-    <p style="margin-top:10px;color:#cfefff;">
-      Coverage: Perth • South West • Pilbara • Remote corridors
-    </p>
+    <!-- NODE POINTS -->
+    <div class="node" style="top:30%; left:35%;"></div>
+    <div class="node" style="top:50%; left:55%;"></div>
+    <div class="node" style="top:70%; left:45%;"></div>
+    <div class="node" style="top:40%; left:70%;"></div>
 
   </div>
 
 </div>
+
+<script>
+const feed = document.getElementById("feed");
+const log = document.getElementById("log");
+
+const messages = [
+  "Fibre backbone latency stable (12ms)",
+  "Wireless node rebalancing signal load",
+  "Remote WA site requesting bandwidth increase",
+  "Civil infrastructure heartbeat OK",
+  "Telemetry sync completed – Perth hub",
+  "Packet reroute initiated across backbone",
+  "Field crew heartbeat signal received",
+  "Backhaul optimisation in progress"
+];
+
+function pushUpdate() {
+  const msg = messages[Math.floor(Math.random()*messages.length)];
+  const time = new Date().toLocaleTimeString();
+
+  feed.innerHTML = `[${time}] ${msg}<br>` + feed.innerHTML;
+  log.innerHTML = `✔ ${time} — ${msg}<br>` + log.innerHTML;
+}
+
+// simulate live system
+setInterval(pushUpdate, 2000);
+pushUpdate();
+</script>
 
 </body>
 </html>
