@@ -6,8 +6,10 @@
 <title>LinkAus NOC Simulator</title>
 
 <style>
-body {
+html, body {
   margin:0;
+  padding:0;
+  height:100%;
   font-family: Arial, Helvetica, sans-serif;
   background:#06131f;
   color:#fff;
@@ -32,7 +34,7 @@ body {
 .grid {
   display:grid;
   grid-template-columns: 1fr 1fr;
-  height:calc(100vh - 50px);
+  height: calc(100vh - 50px);
 }
 
 /* LEFT PANEL */
@@ -67,7 +69,7 @@ h3 {
 .warn { background:#ffcc00; }
 .critical { background:#ff3355; }
 
-/* TELEMETRY FEED */
+/* FEED */
 #feed {
   font-size:12px;
   line-height:1.6;
@@ -78,21 +80,35 @@ h3 {
   border-radius:8px;
 }
 
+/* LOG */
+.log {
+  font-size:12px;
+  background:#071521;
+  padding:8px;
+  border-radius:8px;
+  height:140px;
+  overflow:auto;
+}
+
 /* MAP AREA */
 .map {
   position:relative;
   border-left:2px solid #00c2ff;
+  height:100%;
+  overflow:hidden;
+  background:#050f18;
 }
 
-/* WA BACKGROUND MAP */
+/* MAP IMAGE FIX */
 .map img {
   width:100%;
   height:100%;
-  object-fit:cover;
-  filter: brightness(0.6) contrast(1.2);
+  object-fit:contain;
+  display:block;
+  filter: brightness(0.75) contrast(1.2);
 }
 
-/* ANIMATED NETWORK LINES */
+/* FLOW LINES */
 .line {
   position:absolute;
   width:2px;
@@ -108,7 +124,7 @@ h3 {
   100% { transform:translateY(600px); opacity:0; }
 }
 
-/* PULSE NODES */
+/* NODES */
 .node {
   position:absolute;
   width:12px;
@@ -124,16 +140,6 @@ h3 {
   50% { transform:scale(1.8); opacity:0.6; }
   100% { transform:scale(1); opacity:1; }
 }
-
-/* LOG */
-.log {
-  font-size:12px;
-  background:#071521;
-  padding:8px;
-  border-radius:8px;
-  height:140px;
-  overflow:auto;
-}
 </style>
 </head>
 
@@ -146,7 +152,7 @@ h3 {
 
 <div class="grid">
 
-  <!-- LEFT: CONTROL + TELEMETRY -->
+  <!-- LEFT PANEL -->
   <div class="panel">
 
     <div class="section">
@@ -169,19 +175,16 @@ h3 {
 
   </div>
 
-  <!-- RIGHT: WA MAP SIM -->
+  <!-- MAP -->
   <div class="map">
 
-    <!-- WA BASE MAP -->
-    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Western_Australia_location_map.svg"/>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Western_Australia_location_map.svg" />
 
-    <!-- FLOW LINES -->
     <div class="line" style="left:20%;"></div>
     <div class="line" style="left:40%; animation-delay:0.5s;"></div>
     <div class="line" style="left:60%; animation-delay:1s;"></div>
     <div class="line" style="left:80%; animation-delay:1.5s;"></div>
 
-    <!-- NODE POINTS -->
     <div class="node" style="top:30%; left:35%;"></div>
     <div class="node" style="top:50%; left:55%;"></div>
     <div class="node" style="top:70%; left:45%;"></div>
@@ -214,7 +217,6 @@ function pushUpdate() {
   log.innerHTML = `✔ ${time} — ${msg}<br>` + log.innerHTML;
 }
 
-// simulate live system
 setInterval(pushUpdate, 2000);
 pushUpdate();
 </script>
