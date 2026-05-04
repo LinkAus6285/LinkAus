@@ -4,12 +4,170 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About Us | LinkAus Networks</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b1b2b;
+      color: #fff;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+        url('https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0') center/cover;
+      padding: 90px 20px;
+      text-align: center;
+      border-bottom: 4px solid #00c2ff;
+    }
+
+    .hero h1 {
+      font-size: 44px;
+      margin: 0;
+      color: #00e0ff;
+      letter-spacing: 1px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #cfefff;
+      margin-top: 10px;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* CARD */
+    .card {
+      background: #12263a;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 200, 255, 0.15);
+      border: 1px solid rgba(0, 200, 255, 0.2);
+    }
+
+    h2 {
+      color: #00e0ff;
+      margin-top: 0;
+    }
+
+    .icon {
+      font-size: 22px;
+      margin-right: 8px;
+    }
+
+    /* EXPERIENCE BLOCKS */
+    .highlight {
+      background: linear-gradient(90deg, #00c2ff, #00ffb3);
+      color: #00131a;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+      margin-top: 15px;
+    }
+
+    /* BACK LINK */
+    .footer-nav {
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    a {
+      color: #00e0ff;
+      text-decoration: none;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>About LinkAus Networks</h1>
-  <p>LinkAus Networks delivers telecommunications, field operations, and infrastructure capability across Australia.</p>
-  <h2>Project Experience</h2>
-  <p>Over 30 years of practical experience in telecommunications rollout, regional field delivery, contracting, and technical operations.</p>
-  <p><a href="index.html">Back to Home</a></p>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>LinkAus Networks</h1>
+    <p>Telecommunications • Field Operations • Infrastructure Delivery</p>
+  </div>
+
+  <div class="container">
+
+    <div class="grid">
+
+      <!-- ABOUT -->
+      <div class="card">
+        <h2>📡 About Us</h2>
+        <p>
+          LinkAus Networks delivers telecommunications, field operations, and infrastructure capability
+          across Australia, with a strong focus on regional and remote Western Australia.
+        </p>
+
+        <p>
+          We specialise in practical, on-the-ground delivery of fibre, wireless, and civil telecom works,
+          supporting carriers, contractors, and infrastructure rollout programs.
+        </p>
+
+        <div class="highlight">
+          🚧 Built on real field experience — not just design theory
+        </div>
+      </div>
+
+      <!-- CAPABILITIES -->
+      <div class="card">
+        <h2>🛰 Core Capabilities</h2>
+
+        <p><span class="icon">📶</span> Fibre optic & wireless deployment</p>
+        <p><span class="icon">🚜</span> Mobile plant operations & civil works</p>
+        <p><span class="icon">📡</span> Telecommunications infrastructure rollout</p>
+        <p><span class="icon">🔧</span> Field maintenance & technical operations</p>
+        <p><span class="icon">🗺</span> Regional & remote WA project delivery</p>
+
+        <div class="highlight">
+          ⚡ 30+ years of hands-on technical & contracting experience
+        </div>
+      </div>
+
+    </div>
+
+    <!-- EXPERIENCE SECTION -->
+    <div class="card" style="margin-top:25px;">
+      <h2>🏗 Project Experience</h2>
+
+      <p>
+        Over three decades of experience across telecommunications rollout, infrastructure delivery,
+        field operations, and technical contracting environments.
+      </p>
+
+      <p>
+        Work has included regional Western Australia deployments, mobile plant operations, network infrastructure builds,
+        and support for large-scale communications programs.
+      </p>
+
+      <div class="highlight">
+        🌏 Focus: Reliable infrastructure delivery in challenging environments
+      </div>
+    </div>
+
+    <div class="footer-nav">
+      <p><a href="index.html">← Back to Home</a></p>
+    </div>
+
+  </div>
+
 </body>
 </html>
