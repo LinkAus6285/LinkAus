@@ -3,41 +3,32 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>LinkAus NOC Simulator</title>
+<title>LinkAus Advanced NOC Simulator</title>
 
 <style>
 html, body {
   margin:0;
-  padding:0;
   height:100%;
   font-family: Arial, Helvetica, sans-serif;
-  background:#06131f;
+  background:#050f18;
   color:#fff;
   overflow:hidden;
 }
 
-/* TOP BAR */
 .topbar {
   display:flex;
   justify-content:space-between;
-  padding:12px 18px;
+  padding:12px 16px;
   background:#0b2236;
   border-bottom:2px solid #00c2ff;
 }
 
-.brand {
-  color:#00e0ff;
-  font-weight:bold;
-}
-
-/* LAYOUT */
 .grid {
   display:grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1.2fr;
   height: calc(100vh - 50px);
 }
 
-/* LEFT PANEL */
 .panel {
   padding:12px;
   overflow:auto;
@@ -45,106 +36,77 @@ html, body {
 
 .section {
   background:#0e2436;
-  padding:12px;
+  padding:10px;
   margin-bottom:10px;
   border-radius:10px;
   border:1px solid rgba(0,200,255,0.2);
 }
 
-h3 {
-  margin:0 0 10px 0;
-  color:#00e0ff;
+h3 { color:#00e0ff; margin:0 0 8px 0; }
+
+/* MAP */
+.map {
+  position:relative;
+  background:#06131f;
+  overflow:hidden;
 }
 
-/* STATUS DOTS */
-.dot {
-  width:10px;
-  height:10px;
+.map::before {
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:url('https://upload.wikimedia.org/wikipedia/commons/3/32/Western_Australia_location_map.svg');
+  background-size:contain;
+  background-repeat:no-repeat;
+  background-position:center;
+  opacity:0.25;
+  filter:brightness(0.8);
+}
+
+canvas {
+  position:absolute;
+  inset:0;
+}
+
+.node {
+  position:absolute;
+  width:14px;
+  height:14px;
   border-radius:50%;
-  display:inline-block;
-  margin-right:8px;
+  background:#00ffb3;
+  box-shadow:0 0 12px #00ffb3;
+  cursor:pointer;
+  transform:translate(-50%,-50%);
 }
 
-.active { background:#00ffb3; }
-.warn { background:#ffcc00; }
-.critical { background:#ff3355; }
+.node.warn { background:#ffcc00; box-shadow:0 0 12px #ffcc00; }
+.node.critical { background:#ff3355; box-shadow:0 0 12px #ff3355; }
 
-/* FEED */
-#feed {
-  font-size:12px;
-  line-height:1.6;
-  height:200px;
-  overflow:auto;
-  background:#071521;
-  padding:8px;
-  border-radius:8px;
+.overlay {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background: radial-gradient(circle at 40% 40%, rgba(0,255,179,0.08), transparent 60%),
+              radial-gradient(circle at 70% 60%, rgba(255,0,80,0.08), transparent 60%);
+  mix-blend-mode:screen;
 }
 
-/* LOG */
+button {
+  background:#00c2ff;
+  border:none;
+  padding:6px 10px;
+  color:#000;
+  cursor:pointer;
+  border-radius:6px;
+  margin-right:6px;
+}
+
 .log {
   font-size:12px;
   background:#071521;
   padding:8px;
-  border-radius:8px;
-  height:140px;
-  overflow:auto;
-}
-
-/* MAP AREA */
-.map {
-  position: relative;
-  border-left: 2px solid #00c2ff;
-  height: 100%;
-  overflow: hidden;
-
-  /* FIX: reliable map rendering */
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/3/32/Western_Australia_location_map.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: #050f18;
-}
-
-/* MAP IMAGE FIX */
-.map img {
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  display:block;
-  filter: brightness(0.75) contrast(1.2);
-}
-
-/* FLOW LINES */
-.line {
-  position:absolute;
-  width:2px;
   height:120px;
-  background:linear-gradient(to bottom, transparent, #00c2ff, transparent);
-  animation: flow 2.5s linear infinite;
-  opacity:0.7;
-}
-
-@keyframes flow {
-  0% { transform:translateY(-120px); opacity:0; }
-  50% { opacity:1; }
-  100% { transform:translateY(600px); opacity:0; }
-}
-
-/* NODES */
-.node {
-  position:absolute;
-  width:12px;
-  height:12px;
-  border-radius:50%;
-  background:#00ffb3;
-  box-shadow:0 0 10px #00ffb3;
-  animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse {
-  0% { transform:scale(1); opacity:1; }
-  50% { transform:scale(1.8); opacity:0.6; }
-  100% { transform:scale(1); opacity:1; }
+  overflow:auto;
 }
 </style>
 </head>
@@ -152,79 +114,98 @@ h3 {
 <body>
 
 <div class="topbar">
-  <div class="brand">🛰 LinkAus NOC Simulator – WA Network Operations</div>
-  <div style="color:#00ffb3;">LIVE SIMULATION ACTIVE</div>
+  <div>🛰 LinkAus Advanced NOC – WA Core Network</div>
+  <div>
+    <button onclick="toggleFault()">Fault Mode</button>
+    <button onclick="resetNet()">Reset</button>
+  </div>
 </div>
 
 <div class="grid">
 
-  <!-- LEFT PANEL -->
   <div class="panel">
 
     <div class="section">
-      <h3>📡 Network Status</h3>
-      <p><span class="dot active"></span>Fibre Backbone: Stable</p>
-      <p><span class="dot warn"></span>Wireless Node: Degraded Signal</p>
-      <p><span class="dot active"></span>Civil Infrastructure: Operational</p>
-      <p><span class="dot critical"></span>Remote WA Link: Priority Load</p>
-    </div>
-
-    <div class="section">
-      <h3>⚡ Live Telemetry Feed</h3>
-      <div id="feed"></div>
-    </div>
-
-    <div class="section">
-      <h3>🧠 System Log</h3>
-      <div class="log" id="log"></div>
+      <h3>Network Control</h3>
+      <div id="log" class="log"></div>
     </div>
 
   </div>
 
-  <!-- MAP -->
-  <div class="map">
+  <div class="map" id="map">
+    <div class="overlay"></div>
+    <canvas id="canvas"></canvas>
 
-  <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Western_Australia_location_map.svg"/>
-
-    <div class="line" style="left:20%;"></div>
-    <div class="line" style="left:40%; animation-delay:0.5s;"></div>
-    <div class="line" style="left:60%; animation-delay:1s;"></div>
-    <div class="line" style="left:80%; animation-delay:1.5s;"></div>
-
-    <div class="node" style="top:30%; left:35%;"></div>
-    <div class="node" style="top:50%; left:55%;"></div>
-    <div class="node" style="top:70%; left:45%;"></div>
-    <div class="node" style="top:40%; left:70%;"></div>
-
+    <!-- nodes -->
+    <div class="node" style="top:40%; left:45%;" onclick="alert('Perth Core Hub')"></div>
+    <div class="node warn" style="top:55%; left:60%;" onclick="alert('Kalgoorlie Relay')"></div>
+    <div class="node" style="top:30%; left:70%;" onclick="alert('Pilbara Backbone')"></div>
+    <div class="node critical" style="top:65%; left:35%;" onclick="alert('Southwest Link Node')"></div>
   </div>
 
 </div>
 
 <script>
-const feed = document.getElementById("feed");
-const log = document.getElementById("log");
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+const log = document.getElementById('log');
+let faultMode = false;
 
-const messages = [
-  "Fibre backbone latency stable (12ms)",
-  "Wireless node rebalancing signal load",
-  "Remote WA site requesting bandwidth increase",
-  "Civil infrastructure heartbeat OK",
-  "Telemetry sync completed – Perth hub",
-  "Packet reroute initiated across backbone",
-  "Field crew heartbeat signal received",
-  "Backhaul optimisation in progress"
+function resize(){
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+  draw();
+}
+window.onresize = resize;
+resize();
+
+const nodes = [
+  {x:0.45, y:0.4},
+  {x:0.6, y:0.55},
+  {x:0.7, y:0.3},
+  {x:0.35, y:0.65}
 ];
 
-function pushUpdate() {
-  const msg = messages[Math.floor(Math.random()*messages.length)];
-  const time = new Date().toLocaleTimeString();
+function draw(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
 
-  feed.innerHTML = `[${time}] ${msg}<br>` + feed.innerHTML;
-  log.innerHTML = `✔ ${time} — ${msg}<br>` + log.innerHTML;
+  function line(a,b,color){
+    ctx.beginPath();
+    ctx.moveTo(a.x*canvas.width, a.y*canvas.height);
+    ctx.quadraticCurveTo(
+      (a.x+b.x)/2*canvas.width + 40,
+      (a.y+b.y)/2*canvas.height - 40,
+      b.x*canvas.width,
+      b.y*canvas.height
+    );
+    ctx.strokeStyle=color;
+    ctx.lineWidth=2;
+    ctx.stroke();
+  }
+
+  let color = faultMode ? '#ff3355' : '#00c2ff';
+
+  line(nodes[0], nodes[1], color);
+  line(nodes[1], nodes[2], color);
+  line(nodes[0], nodes[3], color);
+  line(nodes[3], nodes[1], color);
 }
 
-setInterval(pushUpdate, 2000);
-pushUpdate();
+function toggleFault(){
+  faultMode = !faultMode;
+  log.innerHTML = "Fault Mode: " + faultMode + "<br>" + log.innerHTML;
+  draw();
+}
+
+function resetNet(){
+  faultMode = false;
+  log.innerHTML = "Network reset to stable state<br>" + log.innerHTML;
+  draw();
+}
+
+setInterval(()=>{
+  log.innerHTML = `[${new Date().toLocaleTimeString()}] Telemetry heartbeat OK<br>` + log.innerHTML;
+},3000);
 </script>
 
 </body>
