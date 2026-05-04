@@ -4,17 +4,179 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Contact Us | LinkAus Networks</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b1b2b;
+      color: #fff;
+    }
+
+    /* HERO */
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+        url('https://images.unsplash.com/photo-1581092160562-40aa08e78837') center/cover;
+      padding: 80px 20px;
+      text-align: center;
+      border-bottom: 4px solid #00c2ff;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin: 0;
+      color: #00e0ff;
+      letter-spacing: 1px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: #cfefff;
+      margin-top: 10px;
+    }
+
+    /* WRAPPER */
+    .container {
+      max-width: 1000px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    /* GRID */
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 25px;
+    }
+
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* CARD */
+    .card {
+      background: #12263a;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 200, 255, 0.15);
+      border: 1px solid rgba(0, 200, 255, 0.2);
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: none;
+      background: #0b1b2b;
+      color: #fff;
+      border: 1px solid #1f3b55;
+    }
+
+    textarea {
+      height: 120px;
+      resize: none;
+    }
+
+    button {
+      background: linear-gradient(90deg, #00c2ff, #00ffb3);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #00131a;
+      width: 100%;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    /* INFO PANEL */
+    .info {
+      line-height: 1.6;
+    }
+
+    .icon {
+      font-size: 24px;
+      margin-right: 8px;
+    }
+
+    .map {
+      margin-top: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 2px solid #00c2ff;
+    }
+
+    a {
+      color: #00e0ff;
+      text-decoration: none;
+    }
+
+    .footer-nav {
+      text-align: center;
+      margin-top: 25px;
+    }
+
+  </style>
 </head>
+
 <body>
-  <h1>Contact LinkAus Networks</h1>
-  <form>
-    <p><input type="text" placeholder="Your name" /></p>
-    <p><input type="email" placeholder="Your email" /></p>
-    <p><textarea placeholder="Your message"></textarea></p>
-    <p><button type="submit">Send</button></p>
-  </form>
-  <p><a href="mailto:tim.hartwell@linkaus.com.au">Email LinkAus Networks</a></p>
-  <iframe src="https://www.google.com/maps?q=Australia&output=embed" width="100%" height="300" style="border:0;"></iframe>
-  <p><a href="index.html">Back to Home</a></p>
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1>LinkAus Networks</h1>
+    <p>Telecommunications • Fibre • Mobile Plant • Infrastructure Delivery</p>
+  </div>
+
+  <div class="container">
+
+    <div class="grid">
+
+      <!-- CONTACT FORM -->
+      <div class="card">
+        <h2>📡 Send Us a Message</h2>
+
+        <form>
+          <input type="text" placeholder="Your name" />
+          <input type="email" placeholder="Your email" />
+          <textarea placeholder="Your message"></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+
+      </div>
+
+      <!-- CONTACT INFO -->
+      <div class="card info">
+        <h2>🛰 Contact Details</h2>
+
+        <p><span class="icon">📧</span> tim.hartwell@linkaus.com.au</p>
+        <p><span class="icon">📍</span> Western Australia – Field Operations</p>
+        <p><span class="icon">📶</span> Fibre • Wireless • Civil Telco Works</p>
+        <p><span class="icon">🚜</span> Mobile Plant & Infrastructure Contracting</p>
+
+        <p style="margin-top:15px;">
+          We deliver telecommunications infrastructure across regional and remote Western Australia.
+        </p>
+
+        <div class="map">
+          <iframe src="https://www.google.com/maps?q=Western%20Australia&output=embed"
+            width="100%" height="250" style="border:0;"></iframe>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-nav">
+      <p><a href="index.html">← Back to Home</a></p>
+    </div>
+
+  </div>
+
 </body>
 </html>
