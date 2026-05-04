@@ -1,212 +1,134 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>LinkAus Advanced NOC Simulator</title>
+/* LinkAus Enterprise NOC v2 - Stylesheet */
 
-<style>
 html, body {
-  margin:0;
-  height:100%;
+  margin: 0;
+  height: 100%;
   font-family: Arial, Helvetica, sans-serif;
-  background:#050f18;
-  color:#fff;
-  overflow:hidden;
+  background: #050f18;
+  color: #fff;
 }
 
+/* TOP BAR */
 .topbar {
-  display:flex;
-  justify-content:space-between;
-  padding:12px 16px;
-  background:#0b2236;
-  border-bottom:2px solid #00c2ff;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 12px;
+  background: #0b2236;
+  border-bottom: 2px solid #00c2ff;
+  font-weight: bold;
 }
 
-.grid {
-  display:grid;
-  grid-template-columns: 1fr 1.2fr;
+/* MAIN LAYOUT */
+.container {
+  display: flex;
   height: calc(100vh - 50px);
 }
 
-.panel {
-  padding:12px;
-  overflow:auto;
+.left {
+  width: 320px;
+  padding: 10px;
+  overflow: auto;
+  background: #06131f;
 }
 
-.section {
-  background:#0e2436;
-  padding:10px;
-  margin-bottom:10px;
-  border-radius:10px;
-  border:1px solid rgba(0,200,255,0.2);
+.right {
+  flex: 1;
+  position: relative;
+  background: #071a26;
+  overflow: hidden;
+  display: flex;
+  min-height: 0;
 }
 
-h3 { color:#00e0ff; margin:0 0 8px 0; }
-
-/* MAP */
+/* MAP AREA */
 .map {
-  position:relative;
-  background:#06131f;
-  overflow:hidden;
+  flex: 1;
+  position: relative;
+  background: linear-gradient(135deg, #062033, #04101a);
+  overflow: hidden;
+  min-height: 0;
 }
 
 .map::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  background-image:url('https://upload.wikimedia.org/wikipedia/commons/3/32/Western_Australia_location_map.svg');
-  background-size:contain;
-  background-repeat:no-repeat;
-  background-position:center;
-  opacity:0.25;
-  filter:brightness(0.8);
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(0,194,255,0.08) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(0,194,255,0.08) 1px, transparent 1px);
+  background-size: 60px 60px;
+  pointer-events: none;
 }
 
-canvas {
-  position:absolute;
-  inset:0;
-}
-
+/* NODES */
 .node {
-  position:absolute;
-  width:14px;
-  height:14px;
-  border-radius:50%;
-  background:#00ffb3;
-  box-shadow:0 0 12px #00ffb3;
-  cursor:pointer;
-  transform:translate(-50%,-50%);
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #00ffb3;
+  box-shadow: 0 0 10px #00ffb3;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
 }
 
-.node.warn { background:#ffcc00; box-shadow:0 0 12px #ffcc00; }
-.node.critical { background:#ff3355; box-shadow:0 0 12px #ff3355; }
-
-.overlay {
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background: radial-gradient(circle at 40% 40%, rgba(0,255,179,0.08), transparent 60%),
-              radial-gradient(circle at 70% 60%, rgba(255,0,80,0.08), transparent 60%);
-  mix-blend-mode:screen;
+.node.warn {
+  background: #ffcc00;
+  box-shadow: 0 0 10px #ffcc00;
 }
 
-button {
-  background:#00c2ff;
-  border:none;
-  padding:6px 10px;
-  color:#000;
-  cursor:pointer;
-  border-radius:6px;
-  margin-right:6px;
+.node.critical {
+  background: #ff3355;
+  box-shadow: 0 0 10px #ff3355;
 }
 
+/* LINES */
+.line {
+  position: absolute;
+  height: 2px;
+  background: #00c2ff;
+  opacity: 0.7;
+  transform-origin: left;
+}
+
+/* PANELS */
+.section {
+  background: #0e2436;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
+
+h3 {
+  margin: 0 0 8px 0;
+  color: #00e0ff;
+  font-size: 14px;
+}
+
+/* LOG */
 .log {
-  font-size:12px;
-  background:#071521;
-  padding:8px;
-  height:120px;
-  overflow:auto;
-}
-</style>
-</head>
-
-<body>
-
-<div class="topbar">
-  <div>🛰 LinkAus Advanced NOC – WA Core Network</div>
-  <div>
-    <button onclick="toggleFault()">Fault Mode</button>
-    <button onclick="resetNet()">Reset</button>
-  </div>
-</div>
-
-<div class="grid">
-
-  <div class="panel">
-
-    <div class="section">
-      <h3>Network Control</h3>
-      <div id="log" class="log"></div>
-    </div>
-
-  </div>
-
-  <div class="map" id="map">
-    <div class="overlay"></div>
-    <canvas id="canvas"></canvas>
-
-    <!-- nodes -->
-    <div class="node" style="top:40%; left:45%;" onclick="alert('Perth Core Hub')"></div>
-    <div class="node warn" style="top:55%; left:60%;" onclick="alert('Kalgoorlie Relay')"></div>
-    <div class="node" style="top:30%; left:70%;" onclick="alert('Pilbara Backbone')"></div>
-    <div class="node critical" style="top:65%; left:35%;" onclick="alert('Southwest Link Node')"></div>
-  </div>
-
-</div>
-
-<script>
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-const log = document.getElementById('log');
-let faultMode = false;
-
-function resize(){
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
-  draw();
-}
-window.onresize = resize;
-resize();
-
-const nodes = [
-  {x:0.45, y:0.4},
-  {x:0.6, y:0.55},
-  {x:0.7, y:0.3},
-  {x:0.35, y:0.65}
-];
-
-function draw(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-
-  function line(a,b,color){
-    ctx.beginPath();
-    ctx.moveTo(a.x*canvas.width, a.y*canvas.height);
-    ctx.quadraticCurveTo(
-      (a.x+b.x)/2*canvas.width + 40,
-      (a.y+b.y)/2*canvas.height - 40,
-      b.x*canvas.width,
-      b.y*canvas.height
-    );
-    ctx.strokeStyle=color;
-    ctx.lineWidth=2;
-    ctx.stroke();
-  }
-
-  let color = faultMode ? '#ff3355' : '#00c2ff';
-
-  line(nodes[0], nodes[1], color);
-  line(nodes[1], nodes[2], color);
-  line(nodes[0], nodes[3], color);
-  line(nodes[3], nodes[1], color);
+  font-size: 11px;
+  height: 140px;
+  overflow: auto;
+  background: #06131f;
+  padding: 8px;
+  border-radius: 8px;
 }
 
-function toggleFault(){
-  faultMode = !faultMode;
-  log.innerHTML = "Fault Mode: " + faultMode + "<br>" + log.innerHTML;
-  draw();
+/* BUTTONS */
+button {
+  background: #00c2ff;
+  border: none;
+  padding: 6px 10px;
+  color: #000;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-right: 6px;
+  font-size: 12px;
 }
 
-function resetNet(){
-  faultMode = false;
-  log.innerHTML = "Network reset to stable state<br>" + log.innerHTML;
-  draw();
-}
-
-setInterval(()=>{
-  log.innerHTML = `[${new Date().toLocaleTimeString()}] Telemetry heartbeat OK<br>` + log.innerHTML;
-},3000);
-</script>
-
-</body>
-</html>
+/* KPI COLORS */
+.good { color: #00ffb3; }
+.warn { color: #ffcc00; }
+.bad { color: #ff3355; }
