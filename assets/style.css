@@ -37,3 +37,35 @@ button {
   cursor: pointer;
   font-weight: bold;
 }
+.hero {
+  position: relative;
+  padding: 80px 20px;
+  text-align: center;
+  border-bottom: 4px solid #00c2ff;
+  overflow: hidden;
+  color: #fff;
+}
+
+.hero-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 0;
+}
+
+.hero h1,
+.hero p {
+  position: relative;
+  z-index: 1;
+}
