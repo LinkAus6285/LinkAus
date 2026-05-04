@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin | LinkAus</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+
+<body>
+
+<div class="hero">
+  <h1>Project Admin</h1>
+</div>
+
+<div class="container">
+
+  <input id="password" placeholder="Enter password">
+  <button onclick="login()">Login</button>
+
+  <div id="panel" style="display:none; margin-top:20px;">
+    <h3>Add Project (future upgrade)</h3>
+    <p>This will evolve into full upload system next stage.</p>
+  </div>
+
+</div>
+
+<script>
+function login() {
+  const pw = document.getElementById("password").value;
+  if (pw === "linkaus2026") {
+    document.getElementById("panel").style.display = "block";
+  } else {
+    alert("Access denied");
+  }
+}
+</script>
+
+</body>
+</html>
