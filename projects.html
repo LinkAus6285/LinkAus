@@ -11,48 +11,82 @@
       font-family: Arial, Helvetica, sans-serif;
       background: #0b1b2b;
       color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ANIMATED NETWORK BACKGROUND */
+    .bg-lines {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 20% 20%, rgba(0,194,255,0.15), transparent 40%),
+                  radial-gradient(circle at 80% 40%, rgba(0,255,179,0.12), transparent 45%);
+      z-index: -1;
+      animation: pulse 10s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); opacity: 0.8; }
+      to { transform: scale(1.05); opacity: 1; }
     }
 
     /* HERO */
     .hero {
       background: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
-        url('https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0') center/cover;
+        url('https://images.unsplash.com/photo-1581092160562-40aa08e78837') center/cover;
       padding: 90px 20px;
       text-align: center;
       border-bottom: 4px solid #00c2ff;
     }
 
     .hero h1 {
-      font-size: 44px;
+      font-size: 46px;
       margin: 0;
       color: #00e0ff;
-      letter-spacing: 1px;
     }
 
     .hero p {
-      font-size: 18px;
       color: #cfefff;
       margin-top: 10px;
     }
 
     /* CONTAINER */
     .container {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: auto;
       padding: 30px 20px;
+    }
+
+    /* FILTER BAR */
+    .filters {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .filters button {
+      background: #12263a;
+      color: #fff;
+      border: 1px solid #00c2ff;
+      padding: 10px 14px;
+      margin: 5px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .filters button:hover {
+      background: #00c2ff;
+      color: #00131a;
     }
 
     /* GRID */
     .grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
+      gap: 18px;
     }
 
     @media (max-width: 900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
+      .grid { grid-template-columns: 1fr; }
     }
 
     /* CARD */
@@ -60,8 +94,13 @@
       background: #12263a;
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid rgba(0, 200, 255, 0.2);
-      box-shadow: 0 0 20px rgba(0, 200, 255, 0.12);
+      border: 1px solid rgba(0,200,255,0.25);
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: scale(1.02);
     }
 
     .card img {
@@ -74,16 +113,6 @@
       padding: 15px;
     }
 
-    h2 {
-      color: #00e0ff;
-      margin-top: 0;
-    }
-
-    .icon {
-      margin-right: 6px;
-    }
-
-    /* HIGHLIGHT */
     .tag {
       display: inline-block;
       margin-top: 10px;
@@ -95,106 +124,149 @@
       font-weight: bold;
     }
 
-    /* FOOTER */
-    .footer-nav {
-      text-align: center;
-      margin-top: 30px;
+    /* MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
     }
 
-    a {
+    .modal-content {
+      background: #12263a;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+    }
+
+    .modal img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .close {
+      float: right;
+      cursor: pointer;
       color: #00e0ff;
-      text-decoration: none;
+      font-size: 20px;
     }
 
-    .intro {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #cfefff;
+    /* MAP */
+    .map {
+      margin-top: 40px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 2px solid #00c2ff;
     }
+
   </style>
 </head>
 
 <body>
 
-  <!-- HERO -->
-  <div class="hero">
-    <h1>Project Gallery</h1>
-    <p>Telecommunications • Fibre • Wireless • Infrastructure Delivery</p>
+<div class="bg-lines"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>Project Gallery</h1>
+  <p>Telecommunications Infrastructure • WA Regional Deployment • Field Operations</p>
+</div>
+
+<div class="container">
+
+  <!-- FILTERS -->
+  <div class="filters">
+    <button onclick="filter('all')">All</button>
+    <button onclick="filter('fibre')">Fibre</button>
+    <button onclick="filter('wireless')">Wireless</button>
+    <button onclick="filter('civil')">Civil</button>
+    <button onclick="filter('remote')">Remote WA</button>
   </div>
 
-  <div class="container">
+  <!-- PROJECT GRID -->
+  <div class="grid">
 
-    <div class="intro">
-      <p>
-        A snapshot of field delivery capability across regional and remote Australia.
-        Fibre rollout, wireless infrastructure, and technical mobilisation projects.
-      </p>
+    <div class="card" data-type="fibre" onclick="openModal(this)">
+      <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837">
+      <div class="card-content">
+        <h3>Regional Fibre Deployment</h3>
+        <div class="tag">Fibre</div>
+      </div>
     </div>
 
-    <!-- PROJECT GRID -->
-    <div class="grid">
-
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1581092160562-40aa08e78837" />
-        <div class="card-content">
-          <h2>📡 Regional Fibre Deployment</h2>
-          <p>Long-haul fibre installation supporting regional communications infrastructure rollout.</p>
-          <div class="tag">Fibre / Civil Works</div>
-        </div>
+    <div class="card" data-type="wireless" onclick="openModal(this)">
+      <img src="https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0">
+      <div class="card-content">
+        <h3>Wireless Network Build</h3>
+        <div class="tag">Wireless</div>
       </div>
-
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0" />
-        <div class="card-content">
-          <h2>📶 Wireless Network Build</h2>
-          <p>Remote telecommunications tower and wireless network infrastructure installation.</p>
-          <div class="tag">Wireless / RF Systems</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d" />
-        <div class="card-content">
-          <h2>🚜 Mobile Plant Operations</h2>
-          <p>Heavy equipment mobilisation and field support for civil telecommunications works.</p>
-          <div class="tag">Civil / Plant</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1581091870627-3c3b1f8c7a2d" />
-        <div class="card-content">
-          <h2>🛰 Network Infrastructure Support</h2>
-          <p>Field maintenance and technical support for active telecom infrastructure networks.</p>
-          <div class="tag">Maintenance</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1581091215367-59ab6f3a2c6f" />
-        <div class="card-content">
-          <h2>🗺 Remote WA Deployment</h2>
-          <p>Regional and remote Western Australia infrastructure rollout and logistics coordination.</p>
-          <div class="tag">Remote Works</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e" />
-        <div class="card-content">
-          <h2>🔧 Technical Contractor Mobilisation</h2>
-          <p>Rapid deployment of skilled teams for telecommunications and civil infrastructure projects.</p>
-          <div class="tag">Contracting</div>
-        </div>
-      </div>
-
     </div>
 
-    <div class="footer-nav">
-      <p><a href="index.html">← Back to Home</a></p>
+    <div class="card" data-type="civil" onclick="openModal(this)">
+      <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d">
+      <div class="card-content">
+        <h3>Mobile Plant Operations</h3>
+        <div class="tag">Civil</div>
+      </div>
+    </div>
+
+    <div class="card" data-type="remote" onclick="openModal(this)">
+      <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e">
+      <div class="card-content">
+        <h3>Remote WA Deployment</h3>
+        <div class="tag">Remote WA</div>
+      </div>
     </div>
 
   </div>
+
+  <!-- MAP -->
+  <div class="map">
+    <iframe
+      src="https://www.google.com/maps?q=Western%20Australia&output=embed"
+      width="100%" height="300" style="border:0;">
+    </iframe>
+  </div>
+
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">✖</span>
+    <img id="modalImg" />
+    <h3 id="modalTitle"></h3>
+  </div>
+</div>
+
+<script>
+  function filter(type) {
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(c => {
+      if (type === 'all' || c.dataset.type === type) {
+        c.style.display = 'block';
+      } else {
+        c.style.display = 'none';
+      }
+    });
+  }
+
+  function openModal(card) {
+    document.getElementById('modal').style.display = 'flex';
+    document.getElementById('modalImg').src = card.querySelector('img').src;
+    document.getElementById('modalTitle').innerText = card.querySelector('h3').innerText;
+  }
+
+  function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+  }
+</script>
 
 </body>
 </html>
