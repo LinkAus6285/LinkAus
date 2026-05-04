@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "title": "Regional Fibre Deployment",
+    "description": "Long haul fibre rollout across regional WA.",
+    "category": "fibre",
+    "image": "https://images.unsplash.com/photo-1581092160562-40aa08e78837"
+  },
+  {
+    "id": 2,
+    "title": "Wireless Tower Installation",
+    "description": "Remote RF network deployment and commissioning.",
+    "category": "wireless",
+    "image": "https://images.unsplash.com/photo-1581092334651-ddf26d9a09d0"
+  },
+  {
+    "id": 3,
+    "title": "Civil & Mobile Plant Works",
+    "description": "Excavation, trenching and infrastructure support.",
+    "category": "civil",
+    "image": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d"
+  }
+]
