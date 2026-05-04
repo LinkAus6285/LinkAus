@@ -92,11 +92,17 @@ h3 {
 
 /* MAP AREA */
 .map {
-  position:relative;
-  border-left:2px solid #00c2ff;
-  height:100%;
-  overflow:hidden;
-  background:#050f18;
+  position: relative;
+  border-left: 2px solid #00c2ff;
+  height: 100%;
+  overflow: hidden;
+
+  /* FIX: reliable map rendering */
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/3/32/Western_Australia_location_map.svg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: #050f18;
 }
 
 /* MAP IMAGE FIX */
