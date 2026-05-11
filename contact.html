@@ -6,10 +6,7 @@
 
   <title>Contact Us | LinkAus Networks</title>
 
-  <meta
-    name="description"
-    content="Contact LinkAus Networks for telecommunications, infrastructure and field delivery projects across Australia."
-  />
+  <meta name="description" content="Contact LinkAus Networks for telecommunications, infrastructure and field delivery projects across Australia." />
   <meta property="og:title" content="Contact LinkAus Networks" />
   <meta property="og:url" content="https://linkaus.com.au/contact.html" />
 
@@ -73,36 +70,64 @@
       border: 1px solid rgba(0, 200, 255, 0.2);
     }
 
-    input,
-    textarea {
+    /* ===== IMPROVED FORM ===== */
+    .form-card {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .contact-form label {
+      font-size: 0.9rem;
+      color: #cfefff;
+      margin-top: 6px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
       width: 100%;
       padding: 12px;
-      margin-top: 10px;
-      margin-bottom: 15px;
-      border-radius: 8px;
+      border-radius: 10px;
       border: 1px solid #1f3b55;
       background: #0b1b2b;
       color: #fff;
+      font-size: 0.95rem;
     }
 
-    textarea {
-      height: 120px;
-      resize: none;
+    .contact-form textarea {
+      min-height: 140px;
+      resize: vertical;
     }
 
-    button {
-      background: linear-gradient(90deg, #00c2ff, #00ffb3);
+    .contact-form button {
+      margin-top: 10px;
+      padding: 12px;
+      border-radius: 10px;
       border: none;
-      padding: 12px 20px;
-      border-radius: 8px;
       font-weight: bold;
       cursor: pointer;
+      background: linear-gradient(90deg, #00c2ff, #00ffb3);
       color: #00131a;
-      width: 100%;
     }
 
-    button:hover {
+    .contact-form button:hover {
       opacity: 0.9;
+    }
+
+    .thankyou-msg {
+      display: none;
+      margin-top: 15px;
+      padding: 12px;
+      background: #00c2ff;
+      color: #00131a;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: bold;
     }
 
     .info {
@@ -126,24 +151,6 @@
       margin-top: 25px;
     }
 
-    .cta-button {
-      display: inline-block;
-      padding: 12px 18px;
-      background: linear-gradient(90deg, #ff0055, #ff7a00);
-      color: #fff;
-      font-weight: bold;
-      border-radius: 8px;
-      text-decoration: none;
-      margin-top: 15px;
-    }
-
-    .ad-wrap {
-      text-align: center;
-      margin: 20px auto;
-      max-width: 1000px;
-      padding: 0 20px;
-    }
-
     a {
       color: #00e0ff;
       text-decoration: none;
@@ -152,113 +159,111 @@
 </head>
 
 <body>
-  <!-- GLOBAL NAV BAR -->
-  <div style="
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:15px 20px;
-    background:#0f2235;
-    border-bottom:2px solid #00c2ff;
-    position:sticky;
-    top:0;
-    z-index:999;
-    flex-wrap:wrap;
-    gap:10px;
-  ">
-    <div style="color:#00e0ff;font-weight:bold;">
-      LinkAus Networks | Field Operations
-    </div>
 
-    <div>
-      <a href="index.html" style="margin:0 10px;color:#fff;">Home</a>
-      <a href="projects.html" style="margin:0 10px;color:#fff;">Projects</a>
-      <a href="about.html" style="margin:0 10px;color:#fff;">About</a>
-      <a href="contact.html" style="margin:0 10px;color:#fff;">Contact</a>
-    </div>
+<!-- NAV -->
+<div style="
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 20px;
+  background:#0f2235;
+  border-bottom:2px solid #00c2ff;
+  position:sticky;
+  top:0;
+  z-index:999;
+  flex-wrap:wrap;
+  gap:10px;
+">
+  <div style="color:#00e0ff;font-weight:bold;">
+    LinkAus Networks | Field Operations
   </div>
 
-  <!-- HERO -->
-  <div class="hero">
-    <h1>LinkAus Networks</h1>
-    <p>Telecommunications • Fibre • Mobile Plant • Infrastructure Delivery</p>
-    <a href="contact.html" class="cta-button">Request Mobilisation</a>
+  <div>
+    <a href="index.html" style="margin:0 10px;color:#fff;">Home</a>
+    <a href="projects.html" style="margin:0 10px;color:#fff;">Projects</a>
+    <a href="about.html" style="margin:0 10px;color:#fff;">About</a>
+    <a href="contact.html" style="margin:0 10px;color:#fff;">Contact</a>
   </div>
-
-  <!-- AD PLACEMENT -->
-  <div class="ad-wrap">
-    <ins class="adsbygoogle"
-         style="display:block"
-         data-ad-client="ca-pub-5536657592585408"
-         data-ad-slot="9720411680"
-         data-ad-format="auto"
-         data-full-width-responsive="true"></ins>
-    <script>
-      (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
-  </div>
-
-  <div class="container">
-
-    <div class="grid">
-
-      <!-- CONTACT FORM -->
-      <div class="card">
-        <h2>📡 Send Us a Message</h2>
-
-       <form onsubmit="showThankYou(event)">
-  <input type="text" name="name" placeholder="Your name" required />
-  <input type="email" name="email" placeholder="Your email" required />
-  <textarea name="message" placeholder="Your message" required></textarea>
-
-  <button type="submit">Send Message</button>
-</form>
-
-<!-- Thank you message (hidden initially) -->
-<div id="thankyou" style="display:none; margin-top:15px; padding:15px; background:#00c2ff; color:#00131a; border-radius:8px;">
-  ✅ Thank you — your message has been sent. We’ll get back to you shortly.
 </div>
 
-      <!-- CONTACT INFO -->
-      <div class="card info">
-        <h2>🛰 Contact Details</h2>
+<!-- HERO -->
+<div class="hero">
+  <h1>LinkAus Networks</h1>
+  <p>Telecommunications • Fibre • Mobile Plant • Infrastructure Delivery</p>
+</div>
 
-        <p><span class="icon">📍</span> Western Australia – Field Operations</p>
-        <p><span class="icon">📶</span> Fibre • Wireless • Civil Telco Works</p>
-        <p><span class="icon">🚜</span> Mobile Plant & Infrastructure Contracting</p>
+<!-- CONTENT -->
+<div class="container">
 
-        <p style="margin-top:15px;">
-          We deliver telecommunications infrastructure across regional and remote Western Australia.
-        </p>
+  <div class="grid">
 
-        <div class="map">
-          <iframe
-            src="https://www.google.com/maps?q=Western%20Australia&output=embed"
-            width="100%"
-            height="250"
-            style="border:0;"
-            loading="lazy">
-          </iframe>
-        </div>
+    <!-- FORM -->
+    <div class="card form-card">
+      <h2>📡 Send Us a Message</h2>
+
+      <form onsubmit="showThankYou(event)" class="contact-form">
+
+        <label>Name</label>
+        <input type="text" name="name" required />
+
+        <label>Email</label>
+        <input type="email" name="email" required />
+
+        <label>Message</label>
+        <textarea name="message" required></textarea>
+
+        <button type="submit">Send Message</button>
+      </form>
+
+      <div id="thankyou" class="thankyou-msg">
+        ✅ Thank you — your message has been sent. We’ll respond shortly.
       </div>
-
     </div>
 
-    <div class="footer-nav">
-      <p><a href="index.html">← Back to Home</a></p>
+    <!-- INFO -->
+    <div class="card info">
+      <h2>🛰 Contact Details</h2>
+
+      <p><span class="icon">📍</span> Western Australia – Field Operations</p>
+      <p><span class="icon">📶</span> Fibre • Wireless • Civil Telco Works</p>
+      <p><span class="icon">🚜</span> Mobile Plant & Infrastructure Contracting</p>
+
+      <p style="margin-top:15px;">
+        We deliver telecommunications infrastructure across regional and remote Western Australia.
+      </p>
+
+      <p>
+        <span class="icon">✉️</span>
+        <a href="mailto:tim.hartwell@linkaus.com.au">tim.hartwell@linkaus.com.au</a>
+      </p>
+
+      <div class="map">
+        <iframe
+          src="https://www.google.com/maps?q=Western%20Australia&output=embed"
+          width="100%"
+          height="250"
+          style="border:0;"
+          loading="lazy">
+        </iframe>
+      </div>
     </div>
 
   </div>
-    <script>
+
+  <div class="footer-nav">
+    <p><a href="index.html">← Back to Home</a></p>
+  </div>
+
+</div>
+
+<!-- SCRIPT -->
+<script>
 function showThankYou(event) {
-  event.preventDefault(); // stops page reload
-
-  // show thank you message
+  event.preventDefault();
   document.getElementById("thankyou").style.display = "block";
-
-  // clear form fields
   event.target.reset();
 }
 </script>
+
 </body>
 </html>
