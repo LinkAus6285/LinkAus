@@ -249,5 +249,16 @@
     </div>
 
   </div>
+    <script>
+function showThankYou(event) {
+  event.preventDefault(); // stops page reload
+
+  // show thank you message
+  document.getElementById("thankyou").style.display = "block";
+
+  // clear form fields
+  event.target.reset();
+}
+</script>
 </body>
 </html>
