@@ -206,13 +206,18 @@
       <div class="card">
         <h2>📡 Send Us a Message</h2>
 
-        <form>
-          <input type="text" placeholder="Your name" />
-          <input type="email" placeholder="Your email" />
-          <textarea placeholder="Your message"></textarea>
-          <button type="submit">Send Message</button>
-        </form>
-      </div>
+       <form onsubmit="showThankYou(event)">
+  <input type="text" name="name" placeholder="Your name" required />
+  <input type="email" name="email" placeholder="Your email" required />
+  <textarea name="message" placeholder="Your message" required></textarea>
+
+  <button type="submit">Send Message</button>
+</form>
+
+<!-- Thank you message (hidden initially) -->
+<div id="thankyou" style="display:none; margin-top:15px; padding:15px; background:#00c2ff; color:#00131a; border-radius:8px;">
+  ✅ Thank you — your message has been sent. We’ll get back to you shortly.
+</div>
 
       <!-- CONTACT INFO -->
       <div class="card info">
